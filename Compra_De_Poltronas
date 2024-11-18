@@ -1,0 +1,126 @@
+algoritmo "Compra_De_Poltronas_Spazio_Italia_Grupo 1"
+var
+   assentos: vetor[1..700] de caractere
+   cadastro: vetor[1..700, 1..3] de caractere // suporta até 700 usuários, e 3 informações: nome, CPF e e-mail
+   nome_evento, horario_evento, dia_evento: caractere
+   preco_ingresso: real
+   opcao: inteiro
+   num_assento: inteiro
+
+procedimento InicializaAssentos() // irá configurar o estado inicial de todos os assentos
+var i: inteiro // contador para preencher o vetor (que possui 700 posições)
+inicio
+   para i de 1 ate 700 faca // determinar os assentos de 1 ate 700
+      assentos[i] <- "Disponivel" // determina que todos assentos preenchidos com a var [i] serão preenchidos como disponíveis
+   fimpara
+fimprocedimento
+
+procedimento ConfigurarEvento()
+inicio
+   escreval("----- CONFIGURE O EVENTO -----")
+   escreva("Informe o nome do evento: ")
+   leia(nome_evento)
+   escreva("Informe o horário do evento (Ex: 20:00): ")
+   leia(horario_evento)
+   escreva("Informe o dia da semana do evento: ")
+   leia(dia_evento)
+   escreva("Informe o preço do ingresso (R$): ")
+   leia(preco_ingresso)
+   escreval("Evento configurado com sucesso!")
+   escreval("Evento: ", nome_evento, ", Dia: ", dia_evento, ", Horário: ", horario_evento, ", Preço: R$", preco_ingresso:0:2) // em "0:2" determina que serão 2 casas decimais após a virgula
+fimprocedimento
+
+procedimento RealizarCadastro()
+var nome, cpf, email: caractere
+inicio
+   escreval ("")
+   escreval("----- CADASTRO DE USUÁRIO -----")
+   escreva("Informe seu nome: ")
+   leia(nome)
+   escreva("Informe seu CPF: ")
+   leia(cpf)
+   escreva("Informe seu e-mail: ")
+   leia(email)
+
+   // Armazenar as informações no cadastro
+
+   cadastro[1, 1] <- nome
+   cadastro[1, 2] <- cpf
+   cadastro[1, 3] <- email
+
+   escreval("Cadastro realizado com sucesso!")
+fimprocedimento
+
+inicio
+   InicializaAssentos()
+   ConfigurarEvento()
+   RealizarCadastro()
+
+   // Esses três procedimentos são chamados primeiro, para garantir que o sistema esteja com as informações necessárias
+
+   repita // loop que ira mostrar o menu de opções até que o usuário escolha a opção 5 = sair
+      escreval("")
+      escreval("----- MENU DE OPÇÕES -----")
+      escreval("1. Reservar Assento")
+      escreval("2. Cancelar Reserva")
+      escreval("3. Mostrar Todos os Assentos")
+      escreval("4. Mostrar Informações do Evento")
+      escreval("5. Sair")
+      escreva("Escolha uma opção: ")
+      leia(opcao)
+
+      escolha opcao
+      caso 1
+         escreva("Digite o número do assento que deseja reservar (1 a 700): ")
+         leia(num_assento)
+         se (num_assento >= 1) e (num_assento <= 700) entao // verificar se o numero de assento é valido (entre 1 e 700)
+            se assentos[num_assento] = "Disponivel" entao // verificar se o valor no vetor de assento esta "Disponível"
+               assentos[num_assento] <- "Reservado" // se estiver disponível ira preencher como reservado
+               escreval("Assento ", num_assento, " reservado com sucesso por R$", preco_ingresso:0:2, ".") // informar o usuário que o assento foi reservado
+            senao
+               escreval("Assento já está reservado.") // se estiver reservador, informara que esta reservado
+            fimse
+         senao
+            escreval("Número de assento inválido.")
+         fimse
+
+      caso 2
+         escreva("Digite o número do assento que deseja cancelar a reserva (1 a 700): ")
+         leia(num_assento)
+         se (num_assento >= 1) e (num_assento <= 700) entao // verificar se o numero de assento é valido (entre 1 e 700)
+            se assentos[num_assento] = "Reservado" entao // verificar se o valor no vetor de assento esta "Reservado"
+               assentos[num_assento] <- "Disponivel" // se estiver reservado ira preencher como disponível
+               escreval("Reserva do assento ", num_assento, " cancelada.") // finaliza
+            senao
+               escreval("Assento não está reservado.") // informar o usuário que o assento não esta reservado
+            fimse
+         senao
+            escreval("Número de assento inválido.") // informar o usuário que o numero de assento é invalido
+         fimse
+
+      caso 3
+         para num_assento de 1 ate 700 faca // o sistema ira verificar todos os assentos
+            escreva("Assento ", num_assento, ": ") // vai mostrar na tela "Assento 1..700 :"
+            se assentos[num_assento] = "Disponivel" entao // verificar o status do assento
+               escreval("Disponível")
+            senao
+               escreval("Reservado")
+            fimse
+         fimpara
+
+      caso 4
+         escreval("") // espaço em branco para fins estéticos
+         escreval("----- INFORMAÇÕES DO EVENTO -----")
+         escreval("Nome do Evento: ", nome_evento)
+         escreval("Horário: ", horario_evento)
+         escreval("Dia da Semana: ", dia_evento)
+         escreval("Preço do Ingresso: R$", preco_ingresso:0:2)
+
+      caso 5
+         escreval("Saindo do sistema.")
+
+      outrocaso // caso o usuario indique um numero diferente de 1..5
+         escreval("Opção inválida.")
+      fimescolha // fim das opções
+   ate opcao = 5 // repetir o loop até que se escolha a opcao 5
+fimalgoritmo
