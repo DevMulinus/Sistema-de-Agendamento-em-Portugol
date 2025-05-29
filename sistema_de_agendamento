@@ -1,4 +1,5 @@
-algoritmo "Compra_De_Poltronas_Spazio_Italia_Grupo 1"
+algoritmo "Compra_De_Poltronas_Spazio_Italia"
+
 var
    assentos: vetor[1..700] de caractere
    cadastro: vetor[1..700, 1..3] de caractere // suporta até 700 usuários, e 3 informações: nome, CPF e e-mail
